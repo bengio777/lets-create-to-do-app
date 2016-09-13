@@ -141,3 +141,99 @@ $ git add .
 $ git status
 $ git commit -m 'set up knex and postgres'
 $ git push
+
+$ git push heroku master
+
+##Its probably a good idea to use the heroku help command
+
+$ heroku -h run
+
+$ heroku run knex migrate:latest
+$ heroku pg:psql
+
+$ \d todo
+
+
+##Time  to make your seeds
+ --knex seed:make <tableName>
+
+$ knex seed:make todo
+
+##In your todo table file change 'table_name' to the name of your table/file
+
+a)   return knex('table_name').del()
+
+b)   return knex('todo').del()
+
+## Then change the table_name for all the seed entries
+## Then input your own data for the seed entries.
+
+----------
+
+  exports.seed = function(knex, Promise) {
+    // Deletes ALL existing entries
+    return knex('todo').del()
+      .then(function () {
+        return Promise.all([
+          // Inserts seed entries
+          knex('todo').insert({
+            name: 'My first todo item!',
+            description: 'This item rocks',
+          }),
+          knex('todo').insert({
+            name: 'Prepare for winter.',
+            description: 'It is coming',
+          }),
+          knex('todo').insert({
+            name: 'Catch some feelings!',
+            description: 'Maybe after Galvanize',
+          })
+        ]);
+      });
+  };
+
+----------
+
+##Now access the knex help menu to figure out what you want to do.
+$ knex -h
+
+##Seed run is what you want to do
+
+$ knex seed:run
+
+##Check out your table in your Database
+
+$ psql demo_todo
+  --access demo_todo database
+
+demo_todo=# \dt
+
+###Should show:
+
+List of relations
+ Schema |         Name         | Type  |  Owner
+--------+----------------------+-------+----------
+ public | knex_migrations      | table | benjamin
+ public | knex_migrations_lock | table | benjamin
+ public | todo                 | table | benjamin
+(3 rows)
+
+##Now check out your todo table in your table in the database:
+
+  --REMEMBER. Your psql command wont run unless you indlude a semicolon at the end!!!
+
+demo_todo=# TABLE todo;
+
+###Should look like this:
+
+    demo_todo=# TABLE todo;
+     id |         name         |      description
+    ----+----------------------+-----------------------
+      2 | My first todo item!  | This item rocks
+      1 | Prepare for winter.  | It is coming
+      3 | Catch some feelings! | Maybe after Galvanize
+    (3 rows)
+
+
+#Now that you are sure your table is displaying as you want it to be Push To Github!
+  --dont forget to exit out of table \q
