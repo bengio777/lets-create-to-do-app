@@ -8,7 +8,7 @@ const pg = require('../db/knex_config.js')
 router.post('/v1/items', (req,res,next)=> {
   //if the name is greater than 255 charecters, then dont do anything.
   let name = req.body.name;
-  let name = req.body.name.description;
+  let description = req.body.name.description;
 
   if(name.length >255){
     res.redirect('/');
@@ -16,6 +16,8 @@ router.post('/v1/items', (req,res,next)=> {
 
   if(name.length >255){
     res.redirect('/');
+  }
+  next();
 })
 
 
