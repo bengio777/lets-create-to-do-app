@@ -138,3 +138,6 @@ $ heroku addons:create heroku-postgresql:hobby-dev
 $ git status
 
 $ git add .
+$ git status
+$ git commit -m 'set up knex and postgres'
+$ git push
