@@ -441,3 +441,107 @@ _______
 
 ##If everything is running push to git!
 ###You know the procedure!
+
+##Its time to set up a button
+  -- <input type="submit">
+
+
+#Go to app.js and lets create another route
+  --put 'use strict' on top of app.js file.
+
+##Reference point #222 in app.js
+  -- const api = require('/api/index.js')
+Now, What do you need to do now since you added the require variable?
+  --Add the app.use below in the app.js file.
+    -- app.use('/api', api);
+
+##Now we need to make a directory called API and a file within called index.js
+
+$ mkdir api
+$ touch api/index.js
+
+##Go to your index.js file in your api directory.
+  -- add 'use strict'
+
+##Start filling out file from scratch
+  --run a test to make sure things are working
+
+
+##File should look something like this:
+----------
+    'use strict'
+
+    const express = require('express')
+    let router = express.Router();
+
+    //('/v1/items') corresponds to the form action in index.hbs
+    router.post('/v1/items', (req,res,next)=>{
+      res.json(req.body);
+    });
+----------
+
+##dont forget module.exports!
+  --module.exports = router;
+
+##Now go to your localhost page and test by entering a random string of anything. You should see something like this:
+
+--------
+    {
+    name: "slkfjhg",
+    description: "aslkdjfh"
+    }
+--------
+
+##That means your test is working!
+
+##So what is happening? We are grabbing information from our API and we need to insert into our database!
+
+##Go back your your index.js file in api directory and create pg variable to require in your knex file from your db directory:
+  --//ref point #333 in api/index.js
+
+  -- const pg = require('../db/knex_config.js')
+
+##Now we want to do a knex pg().insert.
+  --What should we do?
+  --We should probably go to the documentation at knexjs to figure out how our this works.
+
+  --This gives us an idea of a template structure to work off:
+    -- knex('books').insert({title: 'Slaughterhouse Five'})
+
+    --comment out or delete your res.json(req.body) line
+    --edit your api/index.js file accordingly and add info referenced from above
+
+    --Should look kinda like this:
+
+      -------
+            pg('todo').insert(req.body);
+      -------
+
+##Add some middleware
+  --ref point #444
+
+##Code in api/index.js should now look something kinda like this:
+
+-------
+    router.post('/v1/items', (req,res,next)=>{
+      // res.json(req.body);
+      pg('todo').insert(req.body);
+      //#444
+      .then((something)=>{
+        res.redirect('/')
+      })
+      .catch((error) => {
+        next(err);
+      })
+    });
+-------
+
+##Now go test the code and the PUT request should work rendering a new todo item and description below it on the page.
+
+##Your test passed! Now what do you do?
+
+  -- go back to your api/index.js file and comment out or delete your console.log and change the function name 'something' after .then to empty string.
+
+  --test again.
+
+##Still works? Then, time to git push!
