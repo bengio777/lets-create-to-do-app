@@ -1,2 +1,10 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<h1>My Great To-Do App!</h1>
+
+<ul>
+  {{#each items}}
+    <li class="todo-item">{{this.name}}</li>
+    <p class="description">
+      {{this.description}}
+    </p>
+  {{/each}}
+</ul>

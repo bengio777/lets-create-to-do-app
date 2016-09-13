@@ -237,3 +237,170 @@ demo_todo=# TABLE todo;
 
 #Now that you are sure your table is displaying as you want it to be Push To Github!
   --dont forget to exit out of table \q
+
+$ git status
+$ git add .
+$ git commit -m 'messagehere'
+$ git push
+
+##Next time going through this process be more conscious of adding commit names more specific like 'seeds added'
+
+##Now get to work on create basic html in route/index.js
+
+#Now you want to configure a GET with knex.
+
+##routes/index.js will initially look like this:
+
+-------
+      var express = require('express');
+      var router = express.Router();
+
+      /* GET home page. */
+      router.get('/', function(req, res, next) {
+        res.render('index', { title: 'Express' });
+      });
+
+      module.exports = router;
+-------
+
+##Time to configure it for GET request with knex:
+
+##go to terminal
+
+$ mkdir db
+
+##Inside make file
+
+$ touch db/knex_config.js
+
+##What do we need to do in this file?
+  --go to knexjs documentation.
+
+
+##You need to require in knex:
+  --from the documentation under the:
+  -- Initializing the Library
+  --You will want to use the following template to format:
+
+------
+    var pg = require('knex')({
+      client: 'pg',
+      connection: process.env.PG_CONNECTION_STRING,
+      searchPath: 'knex,public'
+    });
+------
+
+##You will want what you enter in to should look something like this to start!
+
+------
+
+    var pg = require('knex')({
+      client: 'pg',
+      connection: process.env.PG_CONNECTION_STRING,
+      searchPath: 'knex,public'
+    });
+
+------
+
+##So we have pg now.
+##So now we have to figure out how to all upon it to do my things.
+
+##At the bottom of the file build a module.exports=pg;
+
+!!!Comment #111 as a referent point!!!
+#Now go to routes/index.js
+--now require in your db/knex_config.js file
+
+#Now we want to run a test for our router.get function. So we are going to comment out a line:
+
+------
+    router.get('/', function(req, res, next) {
+//      res.render('index', { title: 'Express' });
+    });
+------
+
+##Run test.
+##You can figure out where to get the test template you need from knex.js docs:
+##Your test should look something like this. Remember some of your psql commands might change in different situations but use this template to find your points of reference within the docs.
+
+------
+    router.get('/', function(req, res, next) {
+      // res.render('index', { title: 'Express' });
+      pg.select().table('todo').then((rows) => {
+        console.log(rows);
+        res.json(rows);
+      })
+      .catch((err) => {
+        console.log("Error getting from database!!!");
+        next(err);
+      })
+    });
+------
+
+#Use nodemon to check things our on your local server.
+
+##On your localhost:#### you should see something like this:
+
+------
+    [
+      {
+        id: 2,
+        name: "My first todo item!",
+        description: "This item rocks"
+      },
+      {
+        id: 1,
+        name: "Prepare for winter.",
+        description: "It is coming"
+      },
+      {
+        id: 3,
+        name: "Catch some feelings!",
+        description: "Maybe after Galvanize"
+      }
+    ]
+-------
+
+##If you want this to work on Heroku you need to add the string:
+  -- 'use strict';
+to the top of these files:
+  -- index.js
+  -- knex_config.js
+
+##Now that we know things are working we can comment out our first console.log in our index.js file and the res.json(rows) part.
+
+##Where it was we do a:
+  -- res.render and send it an object with a key of our choosing
+  -- in this case we call the object key 'items' with a value of 'rows'.
+
+###It should look something like this:
+
+-------
+    router.get('/', function(req, res, next) {
+      // res.render('index', { title: 'Express' });
+      pg.select().table('todo')
+        .then((rows) => {
+        // console.log(rows);
+        // res.json(rows);
+        res.render('index', {items: rows})
+      })
+-------
+
+##Then, we need to open up our index.hbs in views directory.
+  --Delete the contents
+
+##Now fill with your own contents:
+
+##
+--we created an h1
+-- an unordered list
+
+##We are going to use helpers with our unordered list.
+
+##GOOD. Everything is Working!
+##Do a git push!
+
+$ git status
+$ git add .
+$ git commit -m 'get-request and rendering html'
+$ git push
