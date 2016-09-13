@@ -1,10 +1,30 @@
 <h1>My Great To-Do App!</h1>
 
-<ul>
-  {{#each items}}
-    <li class="todo-item">{{this.name}}</li>
-    <p class="description">
-      {{this.description}}
-    </p>
-  {{/each}}
-</ul>
+<section class="display-todo-items">
+  <ul>
+    {{#each items}}
+      <li class="todo-item">{{this.name}}</li>
+      <p class="description">
+        {{this.description}}
+      </p>
+    {{/each}}
+  </ul>
+</section>
+
+<section class="create-todo-item">
+    <h2>Create a todo item</h2>
+
+  <form class="add-item" action="/api/v1/items" method="post">
+      <div>
+        <label for="item-name">What do you need to do?</label>
+        <input type="text" name="name" value="">
+    </div>
+
+    <div>
+      <div class="">
+        <label for="item-description">Tell Me More</label>
+        <textarea name="description" rows="8" cols="40"></textarea>
+      </div>
+    </div>
+  </form>
+</section>

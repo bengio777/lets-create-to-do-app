@@ -404,3 +404,40 @@ $ git status
 $ git add .
 $ git commit -m 'get-request and rendering html'
 $ git push
+
+##Do you remember how to push to heroku?
+
+$ git push heroku master
+
+##Now you are going to want to build an HTML form with your buttons continuing in your index.hbs.
+  --fill out your form template
+
+###Should look something like this:
+
+-------
+    <form class="add-item" action="/api/v1/items" method="post">
+-------
+
+###Continue filling out form
+  --add labels
+  --add inputs
+
+###Should look something like this:
+_______
+
+<form class="add-item" action="/api/v1/items" method="post">
+    <div>
+      <label for="item-name">What do you need to do?</label>
+      <input type="text" name="name" value="">
+  </div>
+  <div>
+    <label for="item-description">Tell Me More</label>
+    <textarea name="description" rows="8" cols="40"></textarea>
+  </div>
+</form>
+_______
+
+#Now run nodemon and check out the progress on your page!
+
+##If everything is running push to git!
+###You know the procedure!
