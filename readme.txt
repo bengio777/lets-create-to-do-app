@@ -545,3 +545,17 @@ $ touch api/index.js
   --test again.
 
 ##Still works? Then, time to git push!
+
+##Now its time to add Sanitization. What happens if in the input fields the user puts something far too long? It wont work.
+  --so let us prevent that from happening with some middleware.
+
+##Go to your api/index.js
+  --create a router.post
+  --ref #555
+
+##Now we create middleware to deal with string too long input problem below ref #555
+  --This problem handles the problem but gives the user no reason why we are just redirecting them to ('/')
+  --it would be better to use JS w jQuery to disable the input until everything is fine. Maybe make their text red and spit an alert or message saying input is too long and what the limit is, in this case, 255 characters.
+
+##Paused Brooks video at 1:38:19
+##Continue and finish tomorrow...
