@@ -2,8 +2,8 @@
 
 (done)-Database provisioned
 
--Seed my local database with some todo items.
+(done)-Seed my local database with some todo items.
 
--A User can Add to do items
+(done)-A User can Add to do items
 
 -A user can mark todo items which makes them go away forever.
