@@ -1,3 +1,7 @@
+##Praise oh great leader Brooks for his guidance!!!
+
+link: https://www.twitch.tv/brookzerker/v/87814487
+
 $ mkdir <dirName>
 $ cd <dirName>
 $ touch app.js
@@ -726,5 +730,7 @@ $().ready(()=> {
 ##It works!!!
 
 ##Push to GH and Heroku!
+
+##Test Heroku
 
 ##Style Later!
