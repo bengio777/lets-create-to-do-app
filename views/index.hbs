@@ -5,7 +5,7 @@
 <section class="display-todo-items">
   <ul>
     {{#each items}}
-      <li class="todo-item">{{this.name}}</li>
+      <li class="todo-item">{{this.name}} <span class="complete"><a href='/api/v1/items/delete/{{this.id}}'>X</a></span></li>
       <p class="description">
         {{this.description}}
       </p>

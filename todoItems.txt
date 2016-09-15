@@ -6,4 +6,4 @@
 
 (done)-A User can Add to do items
 
--A user can mark todo items which makes them go away forever.
+(done)-A user can mark todo items which makes them go away forever.

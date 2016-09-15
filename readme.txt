@@ -559,3 +559,172 @@ $ touch api/index.js
 
 ##Paused Brooks video at 1:38:19
 ##Continue and finish tomorrow.....
+
+##Git pushed to GH and Heroku
+
+##Test Heroku
+  --added an item. But they stay there when you refresh because they are stored to the database.
+
+##Now we need to complete our final task and add a delete button next to each task.
+
+##Lets make it so a little red X will appear when we click on the list item.
+
+##We then go to our index.hbs
+  --add a span next to the list item with class 'complete'
+  --We add a Capital X for the button to click when task is complete.
+
+##Now we need to stylize our page a bit. Especially the button.
+  --make the x red
+  --mouke the curser a hand when we mouse over the x.
+
+##Check to make sure everything is working as you expect.
+
+##Now bring in the latest version of jQuery from the jQuery website.
+  --put in bottom of layout.hbs
+  --example:
+    <script   src="https://code.jquery.com/jquery-3.1.0.min.js"   integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s="   crossorigin="anonymous"></script>
+
+##Open up your dev tools and test jquery.
+  -- $.fn.jquery
+    --in your console.
+
+##We need to make an API delete call for when we click on each list item.
+
+##create another script tag in in layout.hbs
+  -- <script src="/javascripts/main.js"></script>
+
+##Create a main.js file in your public/javascripts directory:
+  -- touch public/javascripts/main.js
+  --go to that file.
+
+##Create your jQuery function
+  --console.log('I am running')
+    --to test everything is connected and running right.
+    --when you refresh page with dev tools console open it should display your console.log string.
+    --comment out your console.log
+
+##Update your jQuery function
+  --Should look something like this:
+
+--------
+
+$().ready(()=>{
+  $('.complete').on('.click',()=>{
+
+  })
+  // console.log('I am working');
+})
+
+--------
+
+## We are going to want to be able to find out the ID of what list item we click on to mark it complete and remove it from our list.
+
+##Go back to your index.hbs to set up:
+  --changes should look something like this.
+  --this.id refers
+-------
+      <li class="todo-item">{{this.name}} <span class="complete" data.id={{this.id}}>X</span></li>
+-------
+
+##Why do we need to know the ID of this item? That way we can send this to the database and say "hey, delete this item!"
+
+##Back to main.js
+
+##Create a JQ function that allows us to click on the red X and run test to show that when we click on it it will console.log the id number of that li
+
+##Now we are goign to make a jquery Ajax call:
+  --documentation
+  -- http://api.jquery.com/category/ajax/
+  -- Description: Perform an asynchronous HTTP (Ajax) request.
+
+  --In this instance we are using ecmascript template literals
+  --Should look kinda like this:
+
+---------
+
+$().ready(()=> {
+  $('.complete').on('click', function(){
+    let id = $(this).data('id');
+    // console.log(id);
+
+    $.ajax(`/api/v1/items/${id}`,{type: 'delete'})
+    .then(()=>{
+      console.log('item deleted');
+    })
+    .catch((err)=>{
+      console.error('Error deleting item!', err);
+    })
+  })
+  // console.log('I am working');
+})
+
+---------
+
+##Go check google dev tools. When you click on the "complete" button you should see a message in your console like this but formatted a little differently:
+
+---------
+
+ Error deleting item!     main.js:12
+ Object {readyState: 4, responseText: "<!DOCTYPE html>↵<html>↵  <head>↵    <title></title…javascripts/main.js'></script>↵  </body>↵</html>↵", status: 404, statusText: "Not Found"}
+
+---------
+
+##Now, We pivot and decide to go to our index.hbs file and do a GET request.
+
+##So, now we are going to have to change some things around in our index.hbs file to do that.
+
+##We add the code to make changes to the index.hbs file.
+
+##We delete our javascripts/main.js file.
+  --However, in this case I just commented out the code in the file.
+  --ref #666
+  --Then I comment out the link to it in the layout.hbs file
+##Then, since we have changed our approach, we can comment out the jquery script src tag in layout.hbs
+
+##Now back to our api index file. Towards the bottom above module.exports, we add a router.get function.
+  -- ref #777
+
+##we test writing something like this router.get middleware:
+
+---------
+    // #777
+    router.get('/v1/items/delete/:id', (req,res,next)=>{
+      console.log('the id is:',req.params.id);
+      res.json(req.params);
+    })
+---------
+
+##When we click on the complete button we expect to see the id and the number written in json format like of an api.
+
+##Then test worked so we comment out the console log and the res.json in the index.js file.
+
+##Now go to the Knex documentation and look up how to do knex delete because we want to delete from the database.
+
+##We edit the code:
+  --Should look kinda like this.
+
+---------
+    // #777
+    router.get('/v1/items/delete/:id', (req,res,next)=>{
+      // console.log('the id is:',req.params.id);
+      // res.json(req.params);
+      pg('todo').where('id', req.params.id).del()
+        .then((something)=>{
+          res.redirect('/');
+        })
+        .catch((error)=>{
+          console.error('Error deleting row from DB');
+          res.redirect('/')
+        });
+    });
+---------
+
+##We run the test. Things work and delete. Functioning!
+
+##Now we can change .then((something)), and our second res.redirect('/') to a next(err):
+
+##It works!!!
+
+##Push to GH and Heroku!
+
+##Style Later!

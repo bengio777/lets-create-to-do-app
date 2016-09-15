@@ -35,4 +35,18 @@ router.post('/v1/items', (req,res,next)=>{
   })
 });
 
+  // #777
+  router.get('/v1/items/delete/:id', (req,res,next)=>{
+    // console.log('the id is:',req.params.id);
+    // res.json(req.params);
+    pg('todo').where('id', req.params.id).del()
+      .then(()=>{
+        res.redirect('/');
+      })
+      .catch((error)=>{
+        console.error('Error deleting row from DB');
+        next(err);
+      });
+  });
+
   module.exports = router;
